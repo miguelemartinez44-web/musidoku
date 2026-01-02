@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Sudoku Musical</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  text-align: center;
+}
+
+#sudoku {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  width: 360px;
+  margin: 20px auto;
+  border: 3px solid #000;
+}
+
+.cell {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+  border: 1px solid #999;
+  cursor: pointer;
+}
+
+.fixed {
+  background: #e0e0e0;
+  cursor: default;
+}
+
+#symbols span {
+  display: inline-block;
+  margin: 4px;
+  padding: 8px;
+  border: 1px solid #333;
+  font-size: 20px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎵 Sudoku Musical</h1>
+<p>Completa el tablero usando notas musicales</p>
+
+<div id="sudoku"></div>
+
+<div id="symbols"></div>
+
+<script>
+const symbols = ["C","D","E","F","G","A","B","𝄞","♪"];
+
+const puzzle = [
+ ["C","","","F","","","A","",""],
+ ["","","E","","G","","","D",""],
+ ["","B","","","A","","","F",""],
+
+ ["","E","","A","","G","","",""],
+ ["G","","F","","","","E","","B"],
+ ["","","","E","","B","","A",""],
+
+ ["","G","","","F","","","E",""],
+ ["","A","","","E","","B","",""],
+ ["","","D","","","A","","","C"]
+];
+
+const sudoku = document.getElementById("sudoku");
+let selected = null;
+
+// crear tablero
+puzzle.flat().forEach(value => {
+  const cell = document.createElement("input");
+  cell.className = "cell";
+  cell.maxLength = 1;
+
+  if (value) {
+    cell.value = value;
+    cell.classList.add("fixed");
+    cell.disabled = true;
+  }
+
+  cell.onclick = () => {
+    if (!cell.disabled && selected) {
+      cell.value = selected;
+    }
+  };
+
+  sudoku.appendChild(cell);
+});
+
+// crear selector
+const symbolsDiv = document.getElementById("symbols");
+symbols.forEach(s => {
+  const span = document.createElement("span");
+  span.textContent = s;
+  span.onclick = () => selected = s;
+  symbolsDiv.appendChild(span);
+});
+</script>
+
+</body>
+</html>
